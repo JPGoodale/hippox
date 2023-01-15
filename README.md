@@ -18,12 +18,12 @@ class MyHippoModule(hk.Module):
 
         self._lambda_real = hk.get_parameter(
             'lambda_real',
-            shape=[state_size, ]
+            shape=[state_size,]
             init = _hippo.lambda_initializer('real')
         )
         self._lambda_imag = hk.get_parameter(
             'lambda_imaginary',
-            shape=[state_size, ]
+            shape=[state_size,]
             init = _hippo.lambda_initializer('imaginary')
         )
         self._state_matrix = self._lambda_real + 1j * self._lambda_imag
@@ -50,6 +50,7 @@ class MyHippoModule(equinox.Module):
     def __init__(self, state_size, measure)
         _hippo = Hippo(state_size=state_size, measure=measure)
         _hippo_params = _hippo()
+        
         self.A = _hippo_params.state_matrix
         self.B = _hippo_params.input_matrix
 
