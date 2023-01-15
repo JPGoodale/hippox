@@ -1,7 +1,5 @@
 # Hippox: High-order Polynomial Projection Operators for JAX
 
-![image](https://user-images.githubusercontent.com/36138121/212571320-4bd0727e-5778-466e-b517-760019d4cab1.png=500x500)
-
 ## What is Hippox?
 
 Hippox provides a simple dataclass for initializing High-order Polynomial Projection Operators (HiPPOs) as parameters in JAX neural network libraries such as Flax and Haiku.
