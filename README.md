@@ -1,6 +1,6 @@
-# Hippox
+# Hippox: High-order Polynomial Projection Operators for JAX
 
-High-order Polynomial Projection Operators for JAX
+!("C:\Users\gooda\OneDrive\Desktop\hippo.png")
 
 ## What is Hippox?
 
