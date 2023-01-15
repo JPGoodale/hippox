@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='hippox',
     version='0.1.0',
-    packages=['main'],
+    packages=['hippox'],
     url='',
     license='MIT',
     author='Jacob Goodale',
