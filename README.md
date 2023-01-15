@@ -1,6 +1,6 @@
 # Hippox: High-order Polynomial Projection Operators for JAX
 
-![image](https://user-images.githubusercontent.com/36138121/212571320-4bd0727e-5778-466e-b517-760019d4cab1.png=300x300)
+![image](https://user-images.githubusercontent.com/36138121/212571320-4bd0727e-5778-466e-b517-760019d4cab1.png)
 
 ## What is Hippox?
 
