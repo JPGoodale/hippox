@@ -10,7 +10,7 @@ Hippox provides a simple dataclass for initializing High-order Polynomial Projec
 
 Here's an example of initializing the parameters in a Haiku module:
 
-```
+```python
 class MyHippoModule(hk.Module):
     def __init__(self, state_size, measure)
         _hippo = Hippo(state_size=state_size, measure=measure)
@@ -40,9 +40,9 @@ class MyHippoModule(hk.Module):
 
 ```
 
-If using a library (such as Equinox) which does not require an initializer function but simply takes jax ndarrays for parameterization, then you can call them directly as a property of the base class after calling it, Here's an example:
+If using a library (such as Equinox) which does not require an initializer function but simply takes JAX ndarrays for parameterization, then you can call the HiPPO matrices directly as a property of the base class after it has been called, Here's an example:
 
-``` 
+```python
 class MyHippoModule(equinox.Module):
     A: jnp.ndarray
     B: jnp.ndarray
