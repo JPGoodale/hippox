@@ -63,6 +63,13 @@ class MyHippoModule(eqx.Module):
 
 ## References
 
+### Repositories
+1. https://github.com/HazyResearch/state-spaces - Original paper implementations in PyTorch
+
+2. https://github.com/srush/annotated-s4 - JAX implementation of S4 models (S4, S4D, DSS)
+
+### Papers
+
 1. HiPPO: Recurrent Memory with Optimal Polynomial Projections:   https://arxiv.org/abs/2008.07669 - Original paper which introduced HiPPOs
 
 2. Efficiently Modeling Long Sequences with Structured State Spaces:      https://arxiv.org/abs/2111.00396 - S4 paper, introduces normal/diagonal plus low rank decomposition
