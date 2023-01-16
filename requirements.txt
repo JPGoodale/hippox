@@ -1,5 +1,5 @@
 dataclasses~=0.6
-jax==0.4.1
+jax==0.3.0
 scipy==1.10.0
-optax==0.1.4
+optax==0.1.0
 setuptools==65.7.0
