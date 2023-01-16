@@ -41,7 +41,7 @@ class MyHippoModule(hk.Module):
 If using a library (such as Equinox) which does not require an initializer function but simply takes JAX ndarrays for parameterization, then you can call the HiPPO matrices directly as a property of the base class after it has been called:
 
 ```python
-class MyHippoModule(equinox.Module):
+class MyHippoModule(eqx.Module):
     A: jnp.ndarray
     B: jnp.ndarray
 
@@ -58,4 +58,12 @@ class MyHippoModule(equinox.Module):
 
 ```
 
+## References
 
+HiPPO: Recurrent Memory with Optimal Polynomial Projections: https://arxiv.org/abs/2008.07669 - Original paper which introduced HiPPOs
+
+Efficiently Modeling Long Sequences with Structured State Spaces: https://arxiv.org/abs/2111.00396 - S4 paper, introduces normal/diagonal plus low rank decomposition
+
+How to Train Your HiPPO: State Space Models with Generalized Orthogonal Basis Projections: https://arxiv.org/abs/2206.12037 - Generalizes and explains the core principals behind HiPPO
+
+On the Parameterization and Initialization of Diagonal State Space Models: https://arxiv.org/abs/2206.11893 - S4D paper, details and explains the diagonal only parameterization 
