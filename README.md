@@ -63,10 +63,10 @@ class MyHippoModule(eqx.Module):
 
 ## References
 
-HiPPO: Recurrent Memory with Optimal Polynomial Projections: https://arxiv.org/abs/2008.07669 - Original paper which introduced HiPPOs
+1. HiPPO: Recurrent Memory with Optimal Polynomial Projections:   https://arxiv.org/abs/2008.07669 - Original paper which introduced HiPPOs
 
-Efficiently Modeling Long Sequences with Structured State Spaces: https://arxiv.org/abs/2111.00396 - S4 paper, introduces normal/diagonal plus low rank decomposition
+2. Efficiently Modeling Long Sequences with Structured State Spaces:      https://arxiv.org/abs/2111.00396 - S4 paper, introduces normal/diagonal plus low rank decomposition
 
-How to Train Your HiPPO: State Space Models with Generalized Orthogonal Basis Projections: https://arxiv.org/abs/2206.12037 - Generalizes and explains the core principals behind HiPPO
+3. How to Train Your HiPPO: State Space Models with Generalized Orthogonal Basis Projections: https://arxiv.org/abs/2206.12037 - Generalizes and explains the core principals behind HiPPO
 
-On the Parameterization and Initialization of Diagonal State Space Models: https://arxiv.org/abs/2206.11893 - S4D paper, details and explains the diagonal only parameterization 
+4. On the Parameterization and Initialization of Diagonal State Space Models: https://arxiv.org/abs/2206.11893 - S4D paper, details and explains the diagonal only parameterization 
