@@ -68,8 +68,10 @@ class MyHippoModule(eqx.Module):
 ```
 
 ## Installation
-hippox can be easily installed using PyPi via pip:
-```pip install hippox```
+hippox can be easily installed through PyPi:
+```
+pip install hippox
+```
 
 ## References
 
