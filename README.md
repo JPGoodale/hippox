@@ -48,7 +48,7 @@ If using a library (such as Equinox) which does not require an initializer funct
 
 ```python
 import equinox as eqx
-from hippox.main import hippox
+from hippox.main import Hippo
 
 class MyHippoModule(eqx.Module):
     A: jnp.ndarray
