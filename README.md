@@ -1,5 +1,8 @@
 # Hippox: High-order Polynomial Projection Operators for JAX
 
+![image](https://user-images.githubusercontent.com/36138121/212599815-02825a92-8d4b-4330-878d-30b32765e345.png)
+
+
 ## What is Hippox?
 
 Hippox provides a simple dataclass for initializing High-order Polynomial Projection Operators (HiPPOs) as parameters in JAX neural network libraries such as Flax and Haiku.
@@ -41,7 +44,7 @@ class MyHippoModule(hk.Module):
 If using a library (such as Equinox) which does not require an initializer function but simply takes JAX ndarrays for parameterization, then you can call the HiPPO matrices directly as a property of the base class after it has been called:
 
 ```python
-class MyHippoModule(equinox.Module):
+class MyHippoModule(eqx.Module):
     A: jnp.ndarray
     B: jnp.ndarray
 
@@ -58,4 +61,19 @@ class MyHippoModule(equinox.Module):
 
 ```
 
+## References
 
+### Repositories
+1. https://github.com/HazyResearch/state-spaces - Original paper implementations in PyTorch
+
+2. https://github.com/srush/annotated-s4 - JAX implementation of S4 models (S4, S4D, DSS)
+
+### Papers
+
+1. HiPPO: Recurrent Memory with Optimal Polynomial Projections:   https://arxiv.org/abs/2008.07669 - Original paper which introduced HiPPOs
+
+2. Efficiently Modeling Long Sequences with Structured State Spaces:      https://arxiv.org/abs/2111.00396 - S4 paper, introduces normal/diagonal plus low rank decomposition
+
+3. How to Train Your HiPPO: State Space Models with Generalized Orthogonal Basis Projections: https://arxiv.org/abs/2206.12037 - Generalizes and explains the core principals behind HiPPO
+
+4. On the Parameterization and Initialization of Diagonal State Space Models: https://arxiv.org/abs/2206.11893 - S4D paper, details and explains the diagonal only parameterization 
