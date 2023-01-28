@@ -2,7 +2,18 @@ import jax.numpy as jnp
 import jax.scipy.special as jss
 import scipy.special as ss
 from jax.numpy import newaxis
-from .core import HippoParams
+from typing import Tuple, NamedTuple, Optional
+
+
+class HippoParams(NamedTuple):
+    """
+    Base class for storing matrices directly derived from HiPPO.
+    """
+
+    state_matrix: jnp.ndarray
+    eigenvector_pair: Optional[Tuple[jnp.ndarray, jnp.ndarray]] = None
+    input_matrix: Optional[jnp.ndarray] = None
+    low_rank_term: Optional[jnp.ndarray] = None
 
 
 def hippo_legs(N: int) -> HippoParams:

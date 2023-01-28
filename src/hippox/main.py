@@ -1,25 +1,14 @@
-import dataclasses
+import chex
 import jax.numpy as jnp
-from typing import Optional, Callable, NamedTuple, Tuple
-from .basis_measures import hippo_legs, hippo_legt, hippo_lagt, hippo_fout
+from typing import Optional, Callable
+from .basis_measures import hippo_legs, hippo_legt, hippo_lagt, hippo_fout, HippoParams
 from .diagonalization import scaled_diagonal, block_diagonal, diagonalize, eigenvector_transform
 
 
-class HippoParams(NamedTuple):
-    """
-    Base class for storing matrices directly derived from HiPPO.
-    """
-
-    state_matrix: jnp.ndarray
-    eigenvector_pair: Optional[Tuple[jnp.ndarray, jnp.ndarray]] = None
-    input_matrix: Optional[jnp.ndarray] = None
-    low_rank_term: Optional[jnp.ndarray] = None
-
-
-@dataclasses.dataclass
+@chex.dataclass
 class Hippo:
     """
-    Base class for initialization of HiPPOs (High-order Polynomial Projection Operators) derived from various basis measures.
+    Base class for initializing HiPPOs (High-order Polynomial Projection Operators) derived from various basis measures. Uses the Chex dataclass rather than the standard library one for compatibility with JAX pytrees and therefore does not take positional arguments when being called.
     """
 
     state_size: int
@@ -111,49 +100,7 @@ class Hippo:
 
     def b_initializer(self):
         """
-        Input matrix parameter initializer for use in Modules across various jax neural net libraries i.e. Haiku, Flax etc... Here's an example using Haiku:
-
-        class MyHippoModule(hk.Module):
-            def __init__(self, state_size, measure)
-                _hippo = Hippo(state_size=state_size, measure=measure)
-                _hippo()
-
-                self._lambda_real = hk.get_parameter(
-                    'lambda_imaginary',
-                    shape=[state_size,]
-                    init=_hippo.lambda_initializer('real')
-                )
-                self._lambda_imag = hk.get_parameter(
-                    'lambda_imaginary',
-                    shape=[state_size,]
-                    init=_hippo.lambda_initializer('imaginary')
-                )
-                self._state_matrix = self._lambda_real + 1j * self._lambda_imag
-
-                self._input_matrix = hk.get_parameter(
-                    'input_matrix',
-                    shape=[state_size, 1],
-                    init=_hippo.b_initializer()
-                )
-
-            def __call__(input, prev_state):
-                new_state = self._state_matrix @ prev_state + self._input_matrix @ input
-                return new_state
-
-
-        If using a library such as Equinox which does not require an initializer function but simply takes jax n-dimensional arrays for setting parameters, then you can call them directly as a property of the class. Here's an example:
-
-        class MyHippoModule(equinox.Module):
-            A: jnp.ndarray
-            B: jnp.ndarray
-            def __init__(self, state_size, measure)
-                _hippo = Hippo(state_size=state_size, measure=measure)
-                _hippo_params = _hippo()
-                self.A = _hippo_params.state_matrix
-                self.B = _hippo_params.input_matrix
-            def __call__(input, state):
-                new_state = self.A @ state + self.B @ input
-                return new state
+        Input matrix parameter initializer for use in Modules across various jax neural net libraries i.e. Haiku, Flax etc...
 
         :return initializer function of signature: f(key, shape) if dplr is True, otherwise jnp.ones
         """
@@ -164,7 +111,7 @@ class Hippo:
 
     def low_rank_initializer(self):
         """
-        Low rank term parameter initializer for use in Modules across various jax neural net libraries i.e. Haiku, Flax etc... Here's an example using Haiku:
+        Low rank term parameter initializer for use in Modules across various jax neural net libraries i.e. Haiku, Flax etc...
 
         :return initializer function of signature: f(key, shape)
 
@@ -177,7 +124,7 @@ class Hippo:
 
     def lambda_initializer(self, return_array: str) -> Callable:
         """
-        Splits state matrix back into real and imaginary parts for parameter initialization in Modules across various neural net libraries i.e. Haiku, Flax etc... Here's an example using Haiku:
+        Splits state matrix back into real and imaginary parts for parameter initialization in Modules across various neural net libraries i.e. Haiku, Flax etc...
 
         :param return_array: str summoning either 'real', 'imaginary' or 'both'
         :return: initializer function of signature: f(key, shape)
@@ -200,7 +147,7 @@ class Hippo:
             concatenate: bool = False
     ) -> jnp.ndarray:
         """
-        Wrapper method for global function of the same name which applies either a transformation of the input array by the inverse eigenvector or  a transformation of the eigenvector by an input array. Unlike the function, this method assumes that the input array you are providing is the return value of a jax initialization function requiring key and shape arguments, such as jax.nn.initializers.normal(). It also provides an option for splitting the transformed array into real and imaginary parts and concatenating them back together for parameter initialization such as in the original S5 implementation: https://github.com/lindermanlab/S5
+        Wrapper method for global function of the same name which applies either a transformation of the input array by the inverse eigenvector or a transformation of the eigenvector by an input array. Unlike the function, this method assumes that the input array you are providing is the return value of a jax initialization function requiring key and shape arguments, such as jax.nn.initializers.normal(). It also provides an option for splitting the transformed array into real and imaginary parts and concatenating them back together for parameter initialization such as in the original S5 implementation: https://github.com/lindermanlab/S5
 
         :param input_fn: initialization function of signature: f(key, shape)
         :param key: jax PRNGKey for input function

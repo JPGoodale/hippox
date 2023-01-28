@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+setup.cfg
+src/hippox/__init__.py
+src/hippox/basis_measures.py
+src/hippox/diagonalization.py
+src/hippox/main.py
+src/hippox.egg-info/PKG-INFO
+src/hippox.egg-info/SOURCES.txt
+src/hippox.egg-info/dependency_links.txt
+src/hippox.egg-info/top_level.txt

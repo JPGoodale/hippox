@@ -3,7 +3,7 @@ from jax.numpy import newaxis
 from jax.numpy.linalg import eigh
 from jax.scipy.linalg import block_diag
 from typing import Tuple
-from.core import HippoParams
+from .basis_measures import HippoParams
 
 
 def diagonalize(
