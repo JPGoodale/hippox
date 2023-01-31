@@ -141,26 +141,22 @@ class Hippo:
 
     def eigenvector_transform(
             self,
-            input_fn,
-            key, shape,
+            input,
             inverse: bool = True,
             concatenate: bool = False
-    ) -> jnp.ndarray:
+    ) -> Callable:
         """
         Wrapper method for global function of the same name which applies either a transformation of the input array by the inverse eigenvector or a transformation of the eigenvector by an input array. Unlike the function, this method assumes that the input array you are providing is the return value of a jax initialization function requiring key and shape arguments, such as jax.nn.initializers.normal(). It also provides an option for splitting the transformed array into real and imaginary parts and concatenating them back together for parameter initialization such as in the original S5 implementation: https://github.com/lindermanlab/S5
 
-        :param input_fn: initialization function of signature: f(key, shape)
-        :param key: jax PRNGKey for input function
-        :param shape: list or tuple providing the shape of for the input function
+        :param input: input array
         :param inverse: bool deciding whether to apply inverse transformation
         :param concatenate: bool deciding whether to split and concatenate transformed array
         :return: transformed array
 
         """
-        array = input_fn(key, shape)
-        transformed = eigenvector_transform(self._params.eigenvector_pair, array, inverse, self.measure_family)
+        transformed = eigenvector_transform(self._params.eigenvector_pair, input, inverse, self.measure_family)
         if concatenate:
             transformed_real = transformed.real
             transformed_imag = transformed.imag
             transformed = jnp.concatenate((transformed_real[..., None], transformed_imag[..., None]), axis=-1)
-        return transformed
+        return lambda key, shape: transformed
