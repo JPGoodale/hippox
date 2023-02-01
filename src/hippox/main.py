@@ -93,7 +93,7 @@ class Hippo:
                 self.conj_sym, self.dplr
             )
             if self.block_diagonal:
-                params = block_diagonal(params, self.state_size, self.n_blocks, self.conj_sym)
+                params = block_diagonal(params, self.state_size, self.n_blocks, self.conj_sym, self.measure_family)
 
         self._params = params
         return self._params
@@ -154,7 +154,7 @@ class Hippo:
         :return: transformed array
 
         """
-        transformed = eigenvector_transform(self._params.eigenvector_pair, input, inverse, self.measure_family)
+        transformed = eigenvector_transform(self._params.eigenvector_pair, input, inverse, self.dplr)
         if concatenate:
             transformed_real = transformed.real
             transformed_imag = transformed.imag

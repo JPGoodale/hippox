@@ -51,8 +51,8 @@ def diagonalize(
         eigenvector_pair = (eigenvector, inverse_eigenvector)
 
         if dplr:
-            input_matrix = eigenvector_transform(eigenvector_pair, params.input_matrix, inverse=True, measure=measure)
-            low_rank_term = eigenvector_transform(eigenvector_pair, low_rank_term, inverse=True, measure=measure)
+            input_matrix = eigenvector_transform(eigenvector_pair, params.input_matrix, inverse=True, dplr=True)
+            low_rank_term = eigenvector_transform(eigenvector_pair, low_rank_term, inverse=True, dplr=True)
             return HippoParams(
                 state_matrix=Lambda,
                 eigenvector_pair=eigenvector_pair,
@@ -99,7 +99,8 @@ def block_diagonal(
         params: HippoParams,
         block_size: int,
         n_blocks: int,
-        conj_sym: bool
+        conj_sym: bool,
+        measure: str,
 ) -> HippoParams:
     """
     Splits the diagonal Hippo state matrix and it's eigenvectors into blocks as in: https://arxiv.org/abs/2208.04933.
@@ -108,15 +109,20 @@ def block_diagonal(
     :param block_size: size of each block
     :param n_blocks: number of blocks to split into
     :param conj_sym: bool deciding whether to enforce conjugate symmetry
+    :param measure: string specifying the measure family of input HippoParams
     :return: HippoParams object containing state matrix and eigenvector pair in block structure
 
     """
     if conj_sym:
         block_size = block_size // 2
+
     state_matrix = (params.state_matrix * jnp.ones((n_blocks, block_size))).ravel()
-    eigenvector = block_diag(*([params.eigenvector_pair[0]] * n_blocks))
-    inverse_eigenvector = block_diag(*([params.eigenvector_pair[1]] * n_blocks))
-    return HippoParams(state_matrix=state_matrix, eigenvector_pair=(eigenvector, inverse_eigenvector))
+    if measure in ['linear', 'inverse']:
+        return HippoParams(state_matrix=state_matrix)
+    else:
+        eigenvector = block_diag(*([params.eigenvector_pair[0]] * n_blocks))
+        inverse_eigenvector = block_diag(*([params.eigenvector_pair[1]] * n_blocks))
+        return HippoParams(state_matrix=state_matrix, eigenvector_pair=(eigenvector, inverse_eigenvector))
 
 
 def low_rank(
@@ -178,7 +184,7 @@ def low_rank(
 
 def eigenvector_transform(
         eigenvector_pair: Tuple[jnp.ndarray, jnp.ndarray],
-        array: jnp.ndarray, inverse: bool, measure: str
+        array: jnp.ndarray, inverse: bool, dplr: bool
 ) -> jnp.ndarray:
     """
     Applies either a transformation of the input array by the inverse eigenvector or a transformation of the eigenvector by an input array. See wrapper method of base Hippo class for an example in a parameter initialization context.
@@ -186,15 +192,17 @@ def eigenvector_transform(
     :param eigenvector_pair: tuple containing the eigenvectors indexed from regular to inverse
     :param array: input n-dimensional array
     :param inverse: decides whether to apply inverse transformation
-    :param measure: basis measure family which the eigenvectors are derived from
+    :param dplr: bool specifying whether the input is in diagonal plus low rank representation
     :return: transformed array
 
     """
     if inverse:
-        if measure == 'legs':
-            return eigenvector_pair[1] @ array
-        else:
+        if dplr:
             return jnp.einsum('ij, ...j -> ...i', eigenvector_pair[1], array)
+        else:
+            return eigenvector_pair[1] @ array
     else:
         array = array[..., 0] + 1j * array[..., 1]
         return array @ eigenvector_pair[0]
+
+
