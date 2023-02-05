@@ -12,7 +12,7 @@ class Hippo:
     """
 
     state_size: int
-    measure_family: str
+    basis_measure: str
     conj_sym: bool = False
     dplr: bool = False
     diagonalize: bool = True
@@ -24,76 +24,76 @@ class Hippo:
             assert self.n_blocks is not None
             self.state_size = self.state_size // self.n_blocks
 
-        if self.measure_family == 'legs':
+        if self.basis_measure == 'legs':
             params = hippo_legs(self.state_size)
 
-        elif self.measure_family == 'legt':
+        elif self.basis_measure == 'legt':
             params = hippo_legt(
                 self.state_size, lmu=False
             )
 
-        elif self.measure_family == 'lmu':
+        elif self.basis_measure == 'lmu':
             params = hippo_legt(
                 self.state_size, lmu=True,
             )
 
-        elif self.measure_family == 'lagt':
+        elif self.basis_measure == 'lagt':
             params = hippo_lagt(
                 self.state_size, generalized=False
             )
 
-        elif self.measure_family == 'glagt':
+        elif self.basis_measure == 'glagt':
             params = hippo_lagt(
                 self.state_size, generalized=True
             )
 
-        elif self.measure_family == 'fout':
+        elif self.basis_measure == 'fout':
             params = hippo_fout(
                 self.state_size, diagonal=False,
                 decay=False, double=False
             )
 
-        elif self.measure_family == 'foud':
+        elif self.basis_measure == 'foud':
             params = hippo_fout(
                 self.state_size, diagonal=True,
                 decay=False, double=False
             )
 
-        elif self.measure_family == 'fourier_decay':
+        elif self.basis_measure == 'fourier_decay':
             params = hippo_fout(
                 self.state_size, diagonal=False,
                 decay=True, double=False
             )
 
-        elif self.measure_family == 'fourier_double':
+        elif self.basis_measure == 'fourier_double':
             params = hippo_fout(
                 self.state_size, diagonal=False,
                 decay=False, double=True
             )
 
-        elif self.measure_family == 'linear':
+        elif self.basis_measure == 'linear':
             params = scaled_diagonal(
                 self.state_size, 'linear',
                 self.conj_sym
             )
 
-        elif self.measure_family == 'inverse':
+        elif self.basis_measure == 'inverse':
             params = scaled_diagonal(
                 self.state_size, 'inverse',
                 self.conj_sym
             )
         else:
             raise ValueError(
-                'Invalid measure_family argument:', self.measure_family
+                'Invalid basis_measure argument:', self.basis_measure
             )
 
         if self.diagonalize:
             params = diagonalize(
-                params, self.state_size, self.measure_family,
+                params, self.state_size, self.basis_measure,
                 self.conj_sym, self.dplr
             )
             if self.block_diagonal:
-                params = block_diagonal(params, self.state_size, self.n_blocks, self.conj_sym, self.measure_family)
+                params = block_diagonal(params, self.state_size, self.n_blocks, self.conj_sym, self.basis_measure)
 
         self._params = params
         return self._params
