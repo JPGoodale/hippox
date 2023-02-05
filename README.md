@@ -22,12 +22,12 @@ class MyHippoModule(hk.Module):
 
         self._lambda_real = hk.get_parameter(
             'lambda_real',
-            shape=[state_size,]
+            shape=[state_size,],
             init = _hippo.lambda_initializer('real')
         )
         self._lambda_imag = hk.get_parameter(
             'lambda_imaginary',
-            shape=[state_size,]
+            shape=[state_size,],
             init = _hippo.lambda_initializer('imaginary')
         )
         self._state_matrix = self._lambda_real + 1j * self._lambda_imag
