@@ -1,1 +1,1 @@
-from main import Hippo
+from src.hippox.main import Hippo
