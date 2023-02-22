@@ -9,6 +9,13 @@ from .diagonalization import scaled_diagonal, block_diagonal, diagonalize, eigen
 class Hippo:
     """
     Base class for initializing HiPPOs (High-order Polynomial Projection Operators) derived from various basis measures. Uses the Chex dataclass rather than the standard library one for compatibility with JAX pytrees and therefore does not take positional arguments when being called.
+    :param state_size: int specifying the size of the hidden state
+    :param basis_measure: str specifying the basis measure family to generate HiPPO from
+    :param conj_sym: bool deciding whether conjugate symmetry is enforced
+    :param dplr: bool deciding whether to keep low rank term and original B matrix
+    :param diagonalize: bool deciding whether to diagonalize HiPPO matrix
+    :param block_diagonal: bool deciding whether to split diagonal HiPPO into blocks as in: https://arxiv.org/abs/2208.04933
+    :param n_blocks: int specifying the number of blocks to split state matrix into if block_diagonal is True
     """
 
     state_size: int

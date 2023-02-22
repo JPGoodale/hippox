@@ -204,5 +204,3 @@ def eigenvector_transform(
     else:
         array = array[..., 0] + 1j * array[..., 1]
         return array @ eigenvector_pair[0]
-
-
